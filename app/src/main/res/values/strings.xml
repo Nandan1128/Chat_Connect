@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Chat Connect</string>
+    <string name="chat_connect">Chat Connect</string>
+    <string name="login">Login</string>
+</resources>
