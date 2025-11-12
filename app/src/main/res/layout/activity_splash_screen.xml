@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B1B1B"
+    android:background="#FFFFFF"
     tools:context=".SplashScreenActivity">
 
 
@@ -19,7 +19,7 @@
             android:layout_width="220dp"
             android:layout_height="220dp"
             android:id="@+id/logo"
-            android:src="@drawable/logo"
+            android:src="@drawable/chatconnect_logo"
             android:contentDescription="@string/app_name"
             android:layout_centerInParent="true" />
     </LinearLayout>

@@ -2,8 +2,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E1E1E"
-    android:padding="24dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#ffffff"
+    android:padding="24dp"
+    tools:context=".register">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +19,7 @@
             android:id="@+id/logo"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/logo"
+            android:src="@drawable/chatconnect_logo"
             android:layout_gravity="center"
             android:layout_marginBottom="32dp" />
 
@@ -31,31 +33,35 @@
             android:elevation="4dp"
             android:clipToOutline="true">
 
-            <!-- Unique ID -->
+            <!-- Pseudonym -->
             <EditText
-                android:id="@+id/et_uid"
+                android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Unique ID"
-                android:inputType="text"
-                android:enabled="false"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#AAAAAA"
+                android:hint="Name"
+                android:background="@drawable/edittext_bg"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:backgroundTint="#7FE0FF"
+                android:drawableLeft="@drawable/baseline_person_24"
+                android:drawablePadding="8dp"
+                android:padding="12dp"
+                android:layout_marginTop="16dp" />
+            <!-- Email -->
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_bg"
+                android:hint="Email"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:backgroundTint="#7FE0FF"
                 android:drawablePadding="8dp"
-                android:padding="12dp" />
-
-            <!-- Generate ID Button -->
-            <Button
-                android:id="@+id/btn_generate_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Generate ID"
-                android:textAllCaps="false"
-                android:backgroundTint="#0E8ACF"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="10dp" />
-
+                android:drawableLeft="@drawable/outline_drafts_24"
+                android:padding="12dp"
+                android:layout_marginTop="20dp" />
             <!-- Password -->
             <EditText
                 android:id="@+id/et_password"
@@ -63,8 +69,9 @@
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#AAAAAA"
+                android:background="@drawable/edittext_bg"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:backgroundTint="#7FE0FF"
                 android:drawableLeft="@drawable/outline_cloud_lock_24"
                 android:drawablePadding="8dp"
@@ -77,29 +84,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirm Password"
-                android:inputType="textPassword"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#AAAAAA"
+                android:background="@drawable/edittext_bg"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:backgroundTint="#7FE0FF"
                 android:drawableLeft="@drawable/outline_cloud_lock_24"
                 android:drawablePadding="8dp"
                 android:padding="12dp"
                 android:layout_marginTop="16dp" />
 
-            <!-- Pseudonym -->
-            <EditText
-                android:id="@+id/et_pseudonym"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Pseudonym (optional)"
-                android:inputType="textPersonName"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#AAAAAA"
-                android:backgroundTint="#7FE0FF"
-                android:drawableLeft="@drawable/baseline_person_24"
-                android:drawablePadding="8dp"
-                android:padding="12dp"
-                android:layout_marginTop="16dp" />
+
 
             <!-- Register Button -->
             <Button
@@ -121,7 +116,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Already have an account? Login"
-            android:textColor="#7FE0FF"
+            android:textColor="#0E8ACF"
+            android:textStyle="bold"
             android:textSize="14sp"
             android:layout_marginTop="20dp"
             android:layout_gravity="center" />
