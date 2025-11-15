@@ -1,6 +1,5 @@
-package com.example.chatconnect
+package com.example.chatconnect.Data_Model
 
-import android.R.attr.name
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -8,19 +7,18 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.ContentView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.chatconnect.R
+import com.example.chatconnect.login
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlin.jvm.java
 
 class register : AppCompatActivity() {
 
     private lateinit var mAuth : FirebaseAuth
     private lateinit var et_name : EditText
+    private lateinit var etphone : EditText
     private lateinit var etemailID : EditText
     private lateinit var edpassword : EditText
     private lateinit var edconfirmpassword : EditText
@@ -38,6 +36,7 @@ class register : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         et_name = findViewById(R.id.et_name)
+        etphone = findViewById(R.id.et_phone)
         etemailID = findViewById(R.id.et_email)
         edpassword = findViewById(R.id.et_password)
         btn_register = findViewById(R.id.btn_register)
@@ -54,6 +53,7 @@ class register : AppCompatActivity() {
         btn_register.setOnClickListener {
 
             val name = et_name.text.toString()
+            val phone = etphone.text.toString()
             val email = etemailID.text.toString()
             val password = edpassword.text.toString()
             val conformpassword = edconfirmpassword.text.toString()
@@ -62,7 +62,7 @@ class register : AppCompatActivity() {
                 Toast.makeText(this@register, "Password does not match", Toast.LENGTH_SHORT).show()
             }
             else{
-                register(name,email, password)
+                register(name,email, password,phone)
             }
 
 
@@ -70,20 +70,19 @@ class register : AppCompatActivity() {
     }
 
 
-    private fun register(name: String, email: String, password: String) {
+    private fun register(name: String, email: String, password: String,phone: String) {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
 
                     val user = mAuth.currentUser
-
                     // 🔹 Send verification email
                     user?.sendEmailVerification()
                         ?.addOnCompleteListener { verifyTask ->
                             if (verifyTask.isSuccessful) {
 
                                 // 🔹 Add user to your database (optional)
-                                addUserToDatabase(name, email, user.uid)
+                                addUserToDatabase(name, email,user.uid, phone)
 
                                 Toast.makeText(
                                     this@register,
@@ -119,8 +118,8 @@ class register : AppCompatActivity() {
             }
     }
 
-    private fun addUserToDatabase(name: String, email: String, uid: String?) {
+    private fun addUserToDatabase(name: String, email: String, uid: String?,phone: String?) {
         mDbRef = FirebaseDatabase.getInstance().getReference()
-        mDbRef.child("user").child(uid!!).setValue(User(name,email,uid))
+        mDbRef.child("user").child(uid!!).setValue(User(name, email, uid, phone))
     }
 }

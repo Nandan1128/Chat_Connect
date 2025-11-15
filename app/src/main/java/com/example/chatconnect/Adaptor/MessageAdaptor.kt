@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatconnect.Message
+import com.example.chatconnect.Data_Model.Message
 import com.example.chatconnect.R
 import com.google.firebase.auth.FirebaseAuth
 

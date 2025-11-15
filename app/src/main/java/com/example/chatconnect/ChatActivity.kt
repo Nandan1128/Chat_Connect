@@ -1,13 +1,17 @@
 package com.example.chatconnect
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatconnect.Adaptor.MessageAdaptor
+import com.example.chatconnect.Data_Model.Message
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,6 +22,8 @@ import com.google.firebase.database.ValueEventListener
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var chatRecyclerView: RecyclerView
+    private lateinit var backbtn: ImageView
+    private lateinit var user_name_display : TextView
     private lateinit var messageBox: EditText
     private lateinit var sendButton: ImageView
     private lateinit var messageAdaptor: MessageAdaptor
@@ -31,6 +37,16 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // 1. SET THE CONTENT VIEW FIRST
         setContentView(R.layout.activity_chat)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+
+
+        backbtn = findViewById(R.id.back_btn)
+        backbtn.setOnClickListener {
+            val intent = Intent(this@ChatActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+        user_name_display = findViewById(R.id.user_name_display)
 
         sendButton = findViewById(R.id.sendButton)
         // Initialize Firebase database reference
@@ -47,7 +63,7 @@ class ChatActivity : AppCompatActivity() {
         receiverRoom = senderUid + receiverUid
 
         // Set the user's name as the title in the action bar
-        supportActionBar?.title = name
+        user_name_display.text = name
 
         // 2. INITIALIZE VIEWS AFTER setContentView
         chatRecyclerView = findViewById(R.id.chatRecyclerView)

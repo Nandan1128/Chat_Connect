@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatconnect.ChatActivity
 import com.example.chatconnect.R
-import com.example.chatconnect.User
+import com.example.chatconnect.Data_Model.User
 
 class UserAdapter(val context: android.content.Context, val userList: ArrayList<User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 

@@ -8,13 +8,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="5dp"
+        android:padding="10dp"
         android:layout_marginTop="2dp"
-        android:background="@drawable/bg_glass_card">
+        android:background="@drawable/receive_bg">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="This is Sent message"
+            android:textColor="@color/black"
             android:id="@+id/txt_receive_message"
             android:textSize="18sp"/>
     </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.chatconnect
+package com.example.chatconnect.Data_Model
 
 data class Message (
     var message: String? = null,

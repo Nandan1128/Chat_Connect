@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
+import com.example.chatconnect.Data_Model.register
 
 import com.google.firebase.auth.FirebaseAuth
 import kotlin.jvm.java
