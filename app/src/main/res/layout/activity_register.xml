@@ -7,6 +7,7 @@
     android:padding="24dp"
     tools:context=".Data_Model.register">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +45,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:backgroundTint="#7FE0FF"
-                android:drawableLeft="@drawable/baseline_person_24"
+                android:drawableStart="@drawable/baseline_person_24"
                 android:drawablePadding="8dp"
                 android:padding="12dp"
                 android:layout_marginTop="16dp" />
@@ -59,7 +60,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:backgroundTint="#7FE0FF"
-                android:drawableLeft="@drawable/phone"
+                android:drawableStart="@drawable/phone"
                 android:drawablePadding="8dp"
                 android:padding="12dp"
                 android:layout_marginTop="16dp" />
@@ -71,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
                 android:hint="Email"
+                android:inputType="textEmailAddress"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:backgroundTint="#7FE0FF"

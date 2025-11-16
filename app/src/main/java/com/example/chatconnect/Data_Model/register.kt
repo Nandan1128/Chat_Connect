@@ -2,6 +2,7 @@ package com.example.chatconnect.Data_Model
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -31,7 +32,7 @@ class register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register)
-
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         supportActionBar?.hide()
 
         mAuth = FirebaseAuth.getInstance()
@@ -53,7 +54,16 @@ class register : AppCompatActivity() {
         btn_register.setOnClickListener {
 
             val name = et_name.text.toString()
-            val phone = etphone.text.toString()
+            // Adding +91 at start of phone number
+            var phone = etphone.text.toString().trim()
+            // Remove spaces, hyphens
+            phone = phone.replace("\\s+".toRegex(), "")
+            phone = phone.replace("-", "")
+
+            // Add +91 if missing
+            if (!phone.startsWith("+91") && phone.length == 10) {
+                phone = "+91$phone"
+            }
             val email = etemailID.text.toString()
             val password = edpassword.text.toString()
             val conformpassword = edconfirmpassword.text.toString()
@@ -62,7 +72,7 @@ class register : AppCompatActivity() {
                 Toast.makeText(this@register, "Password does not match", Toast.LENGTH_SHORT).show()
             }
             else{
-                register(name,email, password,phone)
+                register(name,email, password,phone, isRegistered = false)
             }
 
 
@@ -70,7 +80,7 @@ class register : AppCompatActivity() {
     }
 
 
-    private fun register(name: String, email: String, password: String,phone: String) {
+    private fun register(name: String, email: String, password: String,phone: String,isRegistered: Boolean) {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -82,7 +92,7 @@ class register : AppCompatActivity() {
                             if (verifyTask.isSuccessful) {
 
                                 // 🔹 Add user to your database (optional)
-                                addUserToDatabase(name, email,user.uid, phone)
+                                addUserToDatabase(name, email,user.uid, phone,isRegistered = true)
 
                                 Toast.makeText(
                                     this@register,
@@ -118,8 +128,14 @@ class register : AppCompatActivity() {
             }
     }
 
-    private fun addUserToDatabase(name: String, email: String, uid: String?,phone: String?) {
+    private fun addUserToDatabase(
+        name: String,
+        email: String,
+        uid: String?,
+        phone: String?,
+        isRegistered: Boolean
+    ) {
         mDbRef = FirebaseDatabase.getInstance().getReference()
-        mDbRef.child("user").child(uid!!).setValue(User(name, email, uid, phone))
+        mDbRef.child("user").child(uid!!).setValue(User(name, email, uid, phone,isRegistered))
     }
 }

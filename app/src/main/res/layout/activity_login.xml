@@ -37,12 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email ID"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:background="@drawable/edittext_bg"
             android:textColorHint="#000"
             android:textColor="#000"
             android:backgroundTint="#7FE0FF"
-            android:drawableLeft="@drawable/baseline_person_24"
+            android:drawableStart="@drawable/baseline_person_24"
             android:drawablePadding="8dp"
             android:padding="12dp" />
 
@@ -57,7 +57,7 @@
             android:textColorHint="#000"
             android:textColor="#000"
             android:backgroundTint="#7FE0FF"
-            android:drawableLeft="@drawable/outline_cloud_lock_24"
+            android:drawableStart="@drawable/outline_cloud_lock_24"
             android:drawablePadding="8dp"
             android:padding="12dp"
             android:layout_marginTop="16dp" />

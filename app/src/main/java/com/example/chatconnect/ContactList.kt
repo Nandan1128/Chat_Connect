@@ -3,12 +3,19 @@ package com.example.chatconnect
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.ContactsContract
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +46,26 @@ class ContactList : AppCompatActivity() {
         setContentView(R.layout.activity_contact_list)
         supportActionBar?.hide()
 
+        val alphabetIndex = findViewById<LinearLayout>(R.id.alphabetIndex)
+
+        val alphabets = ('A'..'Z').toList()
+
+        for (letter in alphabets) {
+            val tv = TextView(this)
+            tv.text = letter.toString()
+            tv.textSize = 12f
+            tv.setPadding(0, 6, 0, 6)
+            tv.setTextColor(Color.GRAY)
+
+            tv.setOnClickListener {
+                scrollToAlphabet(letter)
+                showPopupBubble(letter)
+            }
+
+            alphabetIndex.addView(tv)
+        }
+
+
         backBtn = findViewById(R.id.back_btn)
         backBtn.setOnClickListener {
             finish()
@@ -54,7 +81,7 @@ class ContactList : AppCompatActivity() {
         adapter = ContactAdapter(this, contactList)
         recyclerView.adapter = adapter
 
-        database = FirebaseDatabase.getInstance().getReference("users")
+        database = FirebaseDatabase.getInstance().getReference("user")
 
         // 🔍 SEARCH BAR LOGIC
         searchBar.addTextChangedListener(object : TextWatcher {
@@ -100,9 +127,7 @@ class ContactList : AppCompatActivity() {
 
                 phone = phone.replace("\\s+".toRegex(), "").replace("-", "")
 
-                if (!phone.startsWith("+91") && phone.length == 10) {
-                    phone = "+91$phone"
-                }
+
 
                 contactList.add(Contact(name, phone, false))
             }
@@ -121,6 +146,7 @@ class ContactList : AppCompatActivity() {
                         val phoneInDb = child.child("phone").getValue(String::class.java)
                         val uidInDb = child.key
 
+
                         if (phoneInDb == contact.phone) {
                             contact.isRegistered = true
                             contact.uid = uidInDb
@@ -135,4 +161,31 @@ class ContactList : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {}
         })
     }
+    private fun scrollToAlphabet(letter: Char) {
+        for (i in contactList.indices) {
+            val name = contactList[i].name ?: ""
+            if (name.isNotEmpty() && name[0].uppercaseChar() == letter) {
+                recyclerView.scrollToPosition(i)
+                return
+            }
+        }
+    }
+    private fun showPopupBubble(letter: Char) {
+        val popup = findViewById<TextView>(R.id.popupBubble)
+        popup.text = letter.toString()
+        popup.visibility = View.VISIBLE
+
+        // Fade in
+        val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        popup.startAnimation(fadeIn)
+
+        // Fade out after delay
+        Handler(Looper.getMainLooper()).postDelayed({
+            val fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+            popup.startAnimation(fadeOut)
+            popup.visibility = View.GONE
+        }, 500)
+    }
+
+
 }

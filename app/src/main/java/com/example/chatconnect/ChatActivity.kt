@@ -40,7 +40,6 @@ class ChatActivity : AppCompatActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
 
-
         backbtn = findViewById(R.id.back_btn)
         backbtn.setOnClickListener {
             val intent = Intent(this@ChatActivity, MainActivity::class.java)
