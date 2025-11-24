@@ -19,5 +19,14 @@
             android:textColor="@color/black"
             android:id="@+id/txt_receive_message"
             android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/txt_receive_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/txt_receive_message"
+            android:layout_below="@id/txt_receive_message"
+            android:textSize="10sp"
+            android:textColor="#9f9f9f"/>
+
     </RelativeLayout>
 </RelativeLayout>

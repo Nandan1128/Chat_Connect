@@ -1,15 +1,14 @@
-package com.example.chatconnect.Adaptor
+package com.example.chatconnect.adaptor
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatconnect.ChatActivity
-import com.example.chatconnect.Data_Model.User
+import com.example.chatconnect.data_Model.User
 import com.example.chatconnect.R
 
 class UserAdapter(private val context: Context, private val userList: ArrayList<User>) :

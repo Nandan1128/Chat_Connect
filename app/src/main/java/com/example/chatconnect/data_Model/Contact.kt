@@ -1,4 +1,4 @@
-package com.example.chatconnect.Data_Model
+package com.example.chatconnect.data_Model
 
 data class Contact(
     val name: String,

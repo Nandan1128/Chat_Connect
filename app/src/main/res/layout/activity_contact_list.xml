@@ -15,6 +15,7 @@
         android:id="@+id/topbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/app_bar_bg"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -34,10 +35,11 @@
                 android:id="@+id/user_name_display"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/back_btn"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/back_btn"
+                android:layout_marginBottom="10dp"
                 android:text="New Chat"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="30sp"
                 android:textStyle="bold" />
         </RelativeLayout>

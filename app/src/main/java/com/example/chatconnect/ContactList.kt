@@ -22,8 +22,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatconnect.Adaptor.ContactAdapter
-import com.example.chatconnect.Data_Model.Contact
+import com.example.chatconnect.adaptor.ContactAdapter
+import com.example.chatconnect.data_Model.Contact
 import com.google.firebase.database.*
 import java.util.*
 

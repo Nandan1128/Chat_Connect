@@ -1,4 +1,4 @@
-package com.example.chatconnect.Adaptor
+package com.example.chatconnect.adaptor
 
 import android.content.Context
 import android.content.Intent
@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatconnect.ChatActivity
-import com.example.chatconnect.Data_Model.Contact
+import com.example.chatconnect.data_Model.Contact
 import com.example.chatconnect.R
 
 class ContactAdapter(

@@ -12,8 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatconnect.Adaptor.UserAdapter
-import com.example.chatconnect.Data_Model.User
+import com.example.chatconnect.adaptor.UserAdapter
+import com.example.chatconnect.auth.Login
+import com.example.chatconnect.data_Model.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         logout_btn.setOnClickListener {
             mAuth.signOut()
-            val intent = Intent(this@MainActivity, login::class.java)
+            val intent = Intent(this@MainActivity, Login::class.java)
             finish()
             startActivity(intent)
         }

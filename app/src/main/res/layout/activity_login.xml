@@ -8,7 +8,7 @@
     android:orientation="vertical"
     app:flow_horizontalAlign="center"
     android:background="#FFFFFF"
-    tools:context=".login">
+    tools:context=".auth.Login">
 
 
     <ImageView

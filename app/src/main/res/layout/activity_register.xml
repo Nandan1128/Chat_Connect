@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#ffffff"
     android:padding="24dp"
-    tools:context=".Data_Model.register">
+    tools:context=".auth.Register">
 
 
     <LinearLayout

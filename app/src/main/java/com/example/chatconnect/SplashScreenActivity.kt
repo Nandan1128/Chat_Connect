@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AlphaAnimation
 import androidx.appcompat.app.AppCompatActivity
+import com.example.chatconnect.auth.Login
 import com.example.chatconnect.databinding.ActivitySplashScreenBinding
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -26,7 +27,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         // Navigate to next screen after delay
         binding.root.postDelayed({
-            startActivity(Intent(this, login::class.java))
+            startActivity(Intent(this, Login::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             finish()
         }, 2200)

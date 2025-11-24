@@ -73,4 +73,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // Encrypted SharedPreferences (AndroidX security)
+    implementation("androidx.security:security-crypto:1.1.0")
+        // or latest stable
+    // Optional (if you use androidx core for Base64; Android util Base64 also OK)
+    // No extra dep needed for java.security / javax.crypto
 }

@@ -1,4 +1,4 @@
-package com.example.chatconnect
+package com.example.chatconnect.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,14 +6,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-
 import androidx.appcompat.app.AppCompatActivity
-import com.example.chatconnect.Data_Model.register
-
+import com.example.chatconnect.MainActivity
+import com.example.chatconnect.R
 import com.google.firebase.auth.FirebaseAuth
-import kotlin.jvm.java
 
-class login : AppCompatActivity() {
+class Login : AppCompatActivity() {
 
     private lateinit var mAuth : FirebaseAuth
     private lateinit var edemailID : EditText
@@ -32,7 +30,7 @@ class login : AppCompatActivity() {
         tv_register = findViewById(R.id.tv_register)
 
         tv_register.setOnClickListener {
-            val intent = Intent(this, register::class.java)
+            val intent = Intent(this, Register::class.java)
             startActivity(intent)
         }
 
@@ -50,7 +48,7 @@ class login : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = mAuth.currentUser
                     if (user != null && user.isEmailVerified) {
-                        val intent = Intent(this@login, MainActivity::class.java)
+                        val intent = Intent(this@Login, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
