@@ -42,25 +42,49 @@
 
    </com.google.android.material.appbar.MaterialToolbar>
 
+    <!-- Placeholder for when there are no chats -->
+    <LinearLayout
+        android:id="@+id/noChatLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/noChatImage"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/newchatimg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            android:text="No conversations yet"
+            android:textSize="18sp" />
+    </LinearLayout>
+
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/userRecyclerView"
-       android:layout_width="413dp"
-       android:layout_height="824dp"
-       android:layout_marginStart="8dp"
-       android:layout_marginTop="8dp"
-       android:layout_marginEnd="8dp"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_marginTop="2dp"
        android:layout_below="@id/materialToolbar"
        tools:listitem="@layout/user_layout" />
 
    <com.google.android.material.floatingactionbutton.FloatingActionButton
-       android:layout_width="60dp"
-       android:layout_height="60dp"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
        android:id="@+id/contact_list"
        android:backgroundTint="#135CAF"
-       android:layout_alignParentRight="true"
+       android:layout_alignParentEnd="true"
        android:layout_alignParentBottom="true"
        android:layout_marginBottom="50dp"
        android:layout_marginEnd="30dp"
-       android:src="@drawable/add">
+       android:contentDescription="New Chat"
+       android:src="@drawable/addnewchat">
    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 </RelativeLayout>

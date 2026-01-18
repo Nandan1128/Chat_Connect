@@ -1,4 +1,4 @@
-package com.example.chatconnect.auth
+package com.example.chatconnect.Data_Model
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,14 +9,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.chatconnect.data_Model.User
 import com.example.chatconnect.R
-import com.example.chatconnect.crypto.CryptoHelper
+import com.example.chatconnect.login
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class Register : AppCompatActivity() {
+class register : AppCompatActivity() {
 
     private lateinit var mAuth : FirebaseAuth
     private lateinit var et_name : EditText
@@ -46,7 +45,7 @@ class Register : AppCompatActivity() {
         edconfirmpassword = findViewById(R.id.et_confirm_password)
 
         tv_login.setOnClickListener {
-            val intent = Intent(this, Login::class.java)
+            val intent = Intent(this, login::class.java)
             startActivity(intent)
         }
 
@@ -70,7 +69,7 @@ class Register : AppCompatActivity() {
             val conformpassword = edconfirmpassword.text.toString()
 
             if(password != conformpassword){
-                Toast.makeText(this@Register, "Password does not match", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@register, "Password does not match", Toast.LENGTH_SHORT).show()
             }
             else{
                 register(name,email, password,phone, isRegistered = false)
@@ -96,7 +95,7 @@ class Register : AppCompatActivity() {
                                 addUserToDatabase(name, email,user.uid, phone,isRegistered = true)
 
                                 Toast.makeText(
-                                    this@Register,
+                                    this@register,
                                     "Verification email sent to ${user.email}. Please verify before login.",
                                     Toast.LENGTH_LONG
                                 ).show()
@@ -105,14 +104,14 @@ class Register : AppCompatActivity() {
                                 mAuth.signOut()
 
                                 // Go back to login screen
-                                val intent = Intent(this@Register, Login::class.java)
+                                val intent = Intent(this@register, login::class.java)
                                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 startActivity(intent)
                                 finish()
 
                             } else {
                                 Toast.makeText(
-                                    this@Register,
+                                    this@register,
                                     "Failed to send verification email: ${verifyTask.exception?.message}",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -121,14 +120,13 @@ class Register : AppCompatActivity() {
 
                 } else {
                     Toast.makeText(
-                        this@Register,
+                        this@register,
                         "Registration failed: ${task.exception?.message}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
     }
-
 
     private fun addUserToDatabase(
         name: String,
@@ -138,26 +136,6 @@ class Register : AppCompatActivity() {
         isRegistered: Boolean
     ) {
         mDbRef = FirebaseDatabase.getInstance().getReference()
-
-        val userObject = User(name, email, uid!!, phone, isRegistered)
-
-        // 1️⃣ Save user basic info
-        mDbRef.child("user").child(uid).setValue(userObject)
-            .addOnSuccessListener {
-
-                // 2️⃣ Generate RSA key pair for this user (only once)
-                CryptoHelper.generateAndStoreRSAKeyPairIfNeeded(uid)
-
-                // 3️⃣ Extract public key (Base64)
-                val pubKeyB64 = CryptoHelper.getPublicKeyBase64(uid)
-
-                // 4️⃣ Upload publicKey to Firebase
-                if (pubKeyB64 != null) {
-                    mDbRef.child("user").child(uid)
-                        .child("publicKey")
-                        .setValue(pubKeyB64)
-                }
-            }
+        mDbRef.child("user").child(uid!!).setValue(User(name, email, uid, phone,isRegistered))
     }
-
 }

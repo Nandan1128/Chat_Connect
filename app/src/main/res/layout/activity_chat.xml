@@ -44,24 +44,27 @@
           android:layout_marginLeft="10dp"
           android:layout_toRightOf="@id/profile"
           android:text="Message"
+          android:layout_marginTop="5dp"
           android:textColor="@color/black"
-          android:textSize="30sp"
+          android:textSize="25sp"
           android:textStyle="bold" />
     </RelativeLayout>
   </com.google.android.material.appbar.MaterialToolbar>
 
 
-  <!-- CHAT MESSAGES -->
-  <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/chatRecyclerView"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      android:layout_margin="5dp"
-      android:background="#E0DFDF"
-      app:layout_constraintTop_toBottomOf="@id/topbar"
-      app:layout_constraintBottom_toTopOf="@id/messageLayout"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent" />
+    <!-- CHAT MESSAGES -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/chatbackground"
+        app:layout_constraintTop_toBottomOf="@id/topbar"
+        app:layout_constraintBottom_toTopOf="@id/messageLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
 
 
   <!-- BOTTOM MESSAGE INPUT BAR -->

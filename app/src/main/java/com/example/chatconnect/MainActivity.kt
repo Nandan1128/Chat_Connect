@@ -1,20 +1,16 @@
 package com.example.chatconnect
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatconnect.adaptor.UserAdapter
-import com.example.chatconnect.auth.Login
-import com.example.chatconnect.data_Model.User
+import com.example.chatconnect.Adaptor.UserAdapter
+import com.example.chatconnect.Data_Model.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -22,18 +18,13 @@ import com.google.firebase.database.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var userRecyclerView: RecyclerView
+    private lateinit var noChatLayout: LinearLayout
     private lateinit var userList: ArrayList<User>
     private lateinit var logout_btn: ImageView
     private lateinit var adapter: UserAdapter
     private lateinit var contact_list: FloatingActionButton
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mDbref: DatabaseReference
-
-    // Permission launcher
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) loadUsers()
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +33,13 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         mAuth = FirebaseAuth.getInstance()
-        mDbref = FirebaseDatabase.getInstance().getReference("user")
+        mDbref = FirebaseDatabase.getInstance().getReference()
 
         userList = ArrayList()
         adapter = UserAdapter(this, userList)
 
         userRecyclerView = findViewById(R.id.userRecyclerView)
+        noChatLayout = findViewById(R.id.noChatLayout)
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         userRecyclerView.adapter = adapter
 
@@ -60,94 +52,66 @@ class MainActivity : AppCompatActivity() {
 
         logout_btn.setOnClickListener {
             mAuth.signOut()
-            val intent = Intent(this@MainActivity, Login::class.java)
+            val intent = Intent(this@MainActivity, login::class.java)
             finish()
             startActivity(intent)
         }
 
-        // Check contact permission
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_CONTACTS
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            loadUsers()
-        } else {
-            requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
-        }
+        loadActiveChats()
     }
 
-    // 🔥 STEP 1: Load contacts from device
-    private fun getPhoneContacts(): ArrayList<String> {
-        val contactNumbers = ArrayList<String>()
-        val cursor = contentResolver.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            null, null, null, null
-        )
-
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-
-                var phone = cursor.getString(
-                    cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER)
-                )
-                val name = cursor.getString(
-                    cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
-                )
-
-                // Normalize phone
-                phone = phone.replace("\\s+".toRegex(), "")
-                phone = phone.replace("-", "")
-
-                if (!phone.startsWith("+91") && phone.length == 10) {
-                    phone = "+91$phone"
-                }
-
-                contactNumbers.add(phone)
-            }
-            cursor.close()
-        }
-        return contactNumbers
-    }
-
-    // 🔥 STEP 2: Match contacts with Firebase users
-    private fun loadUsers() {
-
-        val myContacts = getPhoneContacts()  // contacts in phone
-
-        mDbref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                userList.clear()
-
-                for (child in snapshot.children) {
-
-                    val user = child.getValue(User::class.java)
-
-
-                    if (user != null && user.uid != mAuth.currentUser?.uid) {
-
-
-                        // Normalize Firebase phone
-                        var dbPhone = user.phone ?: ""
-                        dbPhone = dbPhone.replace("\\s+".toRegex(), "").replace("-", "")
-                        if (!dbPhone.startsWith("+91") && dbPhone.length == 10) {
-                            dbPhone = "+91$dbPhone"
-                        }
-                        Log.d("UserDebug", "Loaded user: ${user.name}")
-
-
-                        // Only show users who are in my contacts
-                        if (dbPhone in myContacts) {
-                            userList.add(user)
-                        }
+    private fun loadActiveChats() {
+        val currentUserUid = mAuth.currentUser?.uid ?: return
+        
+        // Listen to existing conversations for the current user
+        mDbref.child("user-messages").child(currentUserUid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val talkedToUids = mutableSetOf<String>()
+                    for (child in snapshot.children) {
+                        child.key?.let { talkedToUids.add(it) }
                     }
+
+                    if (talkedToUids.isEmpty()) {
+                        userList.clear()
+                        adapter.notifyDataSetChanged()
+                        updateVisibility(true)
+                        return
+                    }
+
+                    // Fetch details for these users from the 'user' node
+                    mDbref.child("user").addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(userSnapshot: DataSnapshot) {
+                            userList.clear()
+                            for (child in userSnapshot.children) {
+                                val user = child.getValue(User::class.java)
+                                if (user != null && user.uid in talkedToUids) {
+                                    userList.add(user)
+                                }
+                            }
+                            adapter.notifyDataSetChanged()
+                            updateVisibility(userList.isEmpty())
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.e("MainActivity", "Error fetching user details: ${error.message}")
+                        }
+                    })
                 }
 
-                adapter.notifyDataSetChanged()
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("MainActivity", "Error fetching active chats: ${error.message}")
+                }
+            })
+    }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+    private fun updateVisibility(isEmpty: Boolean) {
+        if (isEmpty) {
+            noChatLayout.visibility = View.VISIBLE
+            userRecyclerView.visibility = View.GONE
+        } else {
+            noChatLayout.visibility = View.GONE
+            userRecyclerView.visibility = View.VISIBLE
+        }
     }
 }

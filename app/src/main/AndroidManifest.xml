@@ -24,10 +24,10 @@
             android:windowSoftInputMode="adjustResize|stateHidden"
             />
         <activity
-            android:name=".auth.Register"
+            android:name=".Data_Model.register"
             android:exported="false" />
         <activity
-            android:name=".auth.Login"
+            android:name=".login"
             android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
