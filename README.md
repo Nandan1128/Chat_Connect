@@ -37,15 +37,14 @@ This project demonstrates real-time communication, backend integration, and stru
   <img src="screenshots/HomeScreen.png" width="250"/>
 </p>
 
-![Chat Screen](screenshots/chat.png)
+
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Language](https://img.shields.io/badge/Language-Kotlin-blue)
 ![Backend](https://img.shields.io/badge/Backend-Firebase-orange)
 ---
 
 ## 🧩 Project Structure
-
-
+```txt
 Chat-Connect/
 │
 ├── app/
@@ -60,6 +59,7 @@ Chat-Connect/
 ├── drawable/
 └── values/
 
+```
 
 ---
 
