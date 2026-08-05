@@ -4,7 +4,6 @@ Chat Connect is a real-time Android messaging application built using **Kotlin**
 
 This project demonstrates real-time communication, backend integration, and structured Android development practices.
 
-
 ---
 
 ## 🚀 Features
